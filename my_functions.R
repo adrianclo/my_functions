@@ -1,5 +1,5 @@
 library(tidyverse)
-library(magrittr) # set_colnames()
+library(magrittr) # magrittr::set_colnames()
 
 # test dataframe ----------------------------------------------------
 mtcars2 <- mtcars
@@ -10,7 +10,12 @@ for(ii in 1:ncol(mtcars2)) {
 }
 
 # my functions ------------------------------------------------------
-# to remove observations/variables with excessive proportion of NAs
+#' @title removeNA
+#' @description to remove observations/variables with excessive proportion of NAs
+#' @param df data.frame/tibble
+#' @param index 1 for rows, 2 for columns
+#' @param prop proportion of NA in index to be considered to remove
+#' @returns data.frame/tibble that has excessive NA-containing rows/columns removed
 removeNA <- function(df, index = 1, prop = 0.2) {
   if(index == 1) { 
     ww <- apply(df, index, function(x) sum(is.na(x))/dim(df)[2]) >= prop
@@ -21,7 +26,5 @@ removeNA <- function(df, index = 1, prop = 0.2) {
   } else { stop("Unknown index") }
 }
 
-# test area ---------------------------------------------------------
-apply(mtcars2, 1, function(x) sum(is.na(x))/ncol(mtcars2)) >= .2
-removeNA(mtcars2, index = 1)
-
+#' @description mac version for "clipboard" in windows
+clipboard <- pipe("pbpaste")
